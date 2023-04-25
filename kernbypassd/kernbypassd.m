@@ -129,7 +129,7 @@ int main(int argc, char **argv, char **envp) {
             printf("kill changerootfs\n");
             #pragma clang diagnostic push
             #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            system("killall -9 changerootfs");
+            popen("killall -9 changerootfs","r");
             #pragma clang diagnostic pop
             remove(changerootfsMem);
             CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR(Notify_Alert), NULL, NULL, YES);

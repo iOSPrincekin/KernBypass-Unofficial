@@ -14,7 +14,7 @@ int main(int argc, char **argv, char **envp) {
         // kill changerootfs
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        system("killall -9 changerootfs");
+        popen("killall -9 changerootfs","r");
         #pragma clang diagnostic pop
     }
 	return 0;

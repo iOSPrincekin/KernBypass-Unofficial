@@ -9,13 +9,14 @@ THEOS_DEVICE_IP = localhost -p 2222
 
 TOOL_NAME = preparerootfs changerootfs
 
+SDK=${THEOS_SDKS}/iPhoneOS12.4.sdk
 preparerootfs_FILES = preparerootfs.m kernel.m libdimentio.c vnode_utils.c
-preparerootfs_CFLAGS = -objc-arc -D USE_DEV_FAKEVAR -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
+preparerootfs_CFLAGS = -objc-arc -D USE_DEV_FAKEVAR -isysroot ${SDK}
 preparerootfs_FRAMEWORKS = Foundation IOKit
 preparerootfs_CODESIGN_FLAGS = -Sent.plist
 
 changerootfs_FILES = changerootfs.m kernel.m libdimentio.c vnode_utils.c
-changerootfs_CFLAGS = -objc-arc -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
+changerootfs_CFLAGS = -objc-arc -isysroot ${SDK}
 changerootfs_FRAMEWORKS = Foundation IOKit
 changerootfs_CODESIGN_FLAGS = -Sent.plist
 
@@ -32,9 +33,13 @@ include $(THEOS_MAKE_PATH)/aggregate.mk
 LIB_DIR := lib
 
 ifdef USE_JELBREK_LIB
-	preparerootfs_LDFLAGS = $(LIB_DIR)/jelbrekLib.dylib
-	changerootfs_LDFLAGS = $(LIB_DIR)/jelbrekLib.dylib
+	preparerootfs_LDFLAGS = -isysroot ${SDK} -Wl,-syslibroot ${SDK}  $(LIB_DIR)/jelbrekLib.dylib
+	changerootfs_LDFLAGS = -isysroot ${SDK} -Wl,-syslibroot ${SDK}  $(LIB_DIR)/jelbrekLib.dylib
+else
+	preparerootfs_LDFLAGS = -isysroot ${SDK} -Wl,-syslibroot ${SDK}
+	changerootfs_LDFLAGS = -isysroot ${SDK} -Wl,-syslibroot ${SDK}
 endif
+
 
 
 ifdef USE_JELBREK_LIB
