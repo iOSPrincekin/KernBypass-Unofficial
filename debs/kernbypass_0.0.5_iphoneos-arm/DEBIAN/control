@@ -1,0 +1,18 @@
+Author: princerkin
+Maintainer: princerkin
+Name: KernBypass (Unofficial)
+Package: jp.princerkin.kernbypass-unofficial
+Pre-Depends: firmware (>= 12.0), firmware (<< 15.0)
+Depends: mobilesubstrate, preferenceloader
+Conflicts: com.apple.memecity
+Replaces: jp.princerkin.kernbypass-unofficial
+Section: System
+Architecture: iphoneos-arm
+Description: kernel level jailbreak detection bypass.
+Depiction: https://cydia.ichitaso.com/depiction/kernbypass.html
+Homepage: https://ichitaso.com
+dev: princerkin, Misty, ichitaso, XsF1re 
+Tag: purpose::extension, compatible::ios12, compatible::ios13, compatible::ios14
+Icon: file:///Library/PreferenceBundles/KernBypassPrefs.bundle/icon@2x.png
+Version: 0.0.5
+Installed-Size: 920
