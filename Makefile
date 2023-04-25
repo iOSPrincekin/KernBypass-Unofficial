@@ -3,20 +3,20 @@ DEBUG = 0
 FINALPACKAGE = 1
 
 TARGET := iphone:clang:14.0:12.1.2
-MIN_IOS_SDK_VERSION = 7.0
+MIN_IOS_SDK_VERSION = 11.0
 
 THEOS_DEVICE_IP = localhost -p 2222
 
 TOOL_NAME = preparerootfs changerootfs
 
 preparerootfs_FILES = preparerootfs.m kernel.m libdimentio.c vnode_utils.c
-preparerootfs_CFLAGS = -objc-arc -D USE_DEV_FAKEVAR
-preparerootfs_FRAMEWORKS = IOKit
+preparerootfs_CFLAGS = -objc-arc -D USE_DEV_FAKEVAR -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
+preparerootfs_FRAMEWORKS = Foundation IOKit
 preparerootfs_CODESIGN_FLAGS = -Sent.plist
 
 changerootfs_FILES = changerootfs.m kernel.m libdimentio.c vnode_utils.c
-changerootfs_CFLAGS = -objc-arc
-changerootfs_FRAMEWORKS = IOKit
+changerootfs_CFLAGS = -objc-arc -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
+changerootfs_FRAMEWORKS = Foundation IOKit
 changerootfs_CODESIGN_FLAGS = -Sent.plist
 
 SUBPROJECTS += zzzzzzzzznotifychroot
