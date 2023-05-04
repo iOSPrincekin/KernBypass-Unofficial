@@ -157,17 +157,17 @@ kaddr_t kbase, kslide, this_proc, our_task, allproc;
 static kaddr_t kernproc;
 static size_t proc_task_off, proc_p_pid_off, task_itk_space_off, io_dt_nvram_of_dict_off;
 
-static uint32_t
+uint32_t
 extract32(uint32_t val, unsigned start, unsigned len) {
 	return (val >> start) & (~0U >> (32U - len));
 }
 
-static uint64_t
+uint64_t
 sextract64(uint64_t val, unsigned start, unsigned len) {
 	return (uint64_t)((int64_t)(val << (64U - len - start)) >> (64U - len));
 }
 
-static size_t
+size_t
 decompress_lzss(const uint8_t *src, size_t src_len, uint8_t *dst, size_t dst_len) {
 	const uint8_t *src_end = src + src_len, *dst_start = dst, *dst_end = dst + dst_len;
 	uint16_t i, r = LZSS_N - LZSS_F, flags = 0;
@@ -201,7 +201,7 @@ decompress_lzss(const uint8_t *src, size_t src_len, uint8_t *dst, size_t dst_len
 	return (size_t)(dst - dst_start);
 }
 
-static const uint8_t *
+const uint8_t *
 der_decode(uint8_t tag, const uint8_t *der, const uint8_t *der_end, size_t *out_len) {
 	size_t der_len;
 
@@ -223,7 +223,7 @@ der_decode(uint8_t tag, const uint8_t *der, const uint8_t *der_end, size_t *out_
 	return NULL;
 }
 
-static const uint8_t *
+const uint8_t *
 der_decode_seq(const uint8_t *der, const uint8_t *der_end, const uint8_t **seq_end) {
 	size_t der_len;
 
@@ -233,7 +233,7 @@ der_decode_seq(const uint8_t *der, const uint8_t *der_end, const uint8_t **seq_e
 	return der;
 }
 
-static const uint8_t *
+const uint8_t *
 der_decode_uint64(const uint8_t *der, const uint8_t *der_end, uint64_t *r) {
 	size_t der_len;
 
@@ -247,7 +247,7 @@ der_decode_uint64(const uint8_t *der, const uint8_t *der_end, uint64_t *r) {
 	return NULL;
 }
 
-static void *
+void *
 kdecompress(const void *src, size_t src_len, size_t *dst_len) {
 	const uint8_t *der, *octet, *der_end, *src_end = (const uint8_t *)src + src_len;
 	struct {
@@ -339,7 +339,7 @@ kwrite_buf_tfp0(kaddr_t addr, const void *buf, mach_msg_type_number_t sz) {
 	return KERN_SUCCESS;
 }
 
-static kern_return_t
+kern_return_t
 find_section(const char *p, struct segment_command_64 sg64, const char *sect_name, struct section_64 *sp) {
 	for(; sg64.nsects-- != 0; p += sizeof(*sp)) {
 		memcpy(sp, p, sizeof(*sp));
@@ -355,13 +355,13 @@ find_section(const char *p, struct segment_command_64 sg64, const char *sect_nam
 	return KERN_FAILURE;
 }
 
-static void
+void
 sec_reset(sec_64_t *sec) {
 	memset(&sec->s64, '\0', sizeof(sec->s64));
 	sec->data = NULL;
 }
 
-static kern_return_t
+kern_return_t
 sec_read_buf(sec_64_t sec, kaddr_t addr, void *buf, size_t sz) {
 	size_t off;
 
@@ -372,7 +372,7 @@ sec_read_buf(sec_64_t sec, kaddr_t addr, void *buf, size_t sz) {
 	return KERN_SUCCESS;
 }
 
-static void
+void
 pfinder_reset(pfinder_t *pfinder) {
 	pfinder->base = 0;
 	pfinder->kslide = 0;
@@ -384,13 +384,13 @@ pfinder_reset(pfinder_t *pfinder) {
 	memset(&pfinder->cmd_symtab, '\0', sizeof(pfinder->cmd_symtab));
 }
 
-static void
+void
 pfinder_term(pfinder_t *pfinder) {
 	free(pfinder->data);
 	pfinder_reset(pfinder);
 }
 
-static kern_return_t
+kern_return_t
 pfinder_init_file(pfinder_t *pfinder, const char *filename) {
 	struct symtab_command cmd_symtab;
 	kern_return_t ret = KERN_FAILURE;
@@ -493,7 +493,7 @@ pfinder_init_file(pfinder_t *pfinder, const char *filename) {
 	return ret;
 }
 
-static kaddr_t
+kaddr_t
 pfinder_xref_rd(pfinder_t pfinder, uint32_t rd, kaddr_t start, kaddr_t to) {
 	kaddr_t x[32] = { 0 };
 	uint32_t insn;
@@ -530,7 +530,7 @@ pfinder_xref_rd(pfinder_t pfinder, uint32_t rd, kaddr_t start, kaddr_t to) {
 	return 0;
 }
 
-static kaddr_t
+kaddr_t
 pfinder_xref_str(pfinder_t pfinder, const char *str, uint32_t rd) {
 	const char *p, *e;
 	size_t len;
@@ -544,7 +544,7 @@ pfinder_xref_str(pfinder_t pfinder, const char *str, uint32_t rd) {
 	return 0;
 }
 
-static kaddr_t
+kaddr_t
 pfinder_sym(pfinder_t pfinder, const char *sym) {
 	const char *p, *strtab = pfinder.kernel + pfinder.cmd_symtab.stroff;
 	struct nlist_64 nl64;
@@ -558,7 +558,7 @@ pfinder_sym(pfinder_t pfinder, const char *sym) {
 	return 0;
 }
 
-static kaddr_t
+kaddr_t
 pfinder_kernproc(pfinder_t pfinder) {
 	kaddr_t ref = pfinder_sym(pfinder, "_kernproc");
 	uint32_t insns[2];
@@ -574,7 +574,7 @@ pfinder_kernproc(pfinder_t pfinder) {
 	return 0;
 }
 
-static kaddr_t
+kaddr_t
 pfinder_allproc(pfinder_t pfinder) {
 	kaddr_t ref = pfinder_xref_str(pfinder, "shutdownwait", 2);
 
@@ -584,7 +584,7 @@ pfinder_allproc(pfinder_t pfinder) {
     return pfinder_xref_rd(pfinder, 8, ref, 0);
 }
 
-static kaddr_t
+kaddr_t
 pfinder_init_kbase(pfinder_t *pfinder) {
 	mach_msg_type_number_t cnt = TASK_DYLD_INFO_COUNT;
 	vm_region_extended_info_data_t extended_info;
@@ -678,54 +678,59 @@ get_boot_path(void) {
 
 kern_return_t
 pfinder_init_offsets(void) {
-	kern_return_t ret = KERN_FAILURE;
-	pfinder_t pfinder;
-	char *boot_path;
+    kern_return_t ret = KERN_FAILURE;
+    pfinder_t pfinder;
+    char *boot_path;
 
-	proc_task_off = 0x18;
-	proc_p_pid_off = 0x10;
-	task_itk_space_off = 0x290;
-	io_dt_nvram_of_dict_off = 0xC0;
-	if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_10_0_b5) {
-		task_itk_space_off = 0x300;
-		if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_11_0_b1) {
-			task_itk_space_off = 0x308;
-			if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_12_0_b1) {
-				proc_task_off = 0x10;
-				proc_p_pid_off = 0x60;
-				task_itk_space_off = 0x300;
-				if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_13_0_b1) {
-					task_itk_space_off = 0x320;
-					if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_13_0_b2) {
-						proc_p_pid_off = 0x68;
-						if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_14_0_b1) {
-							task_itk_space_off = 0x330;
-							io_dt_nvram_of_dict_off = 0xB8;
-							if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_14_3_b1) {
-								io_dt_nvram_of_dict_off = 0xC0;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	if((boot_path = get_boot_path()) != NULL) {
-		printf("boot_path: %s\n", boot_path);
-		if(pfinder_init_file(&pfinder, boot_path) == KERN_SUCCESS) {
-			pfinder.kslide = kslide;
-			if(pfinder_init_kbase(&pfinder) == KERN_SUCCESS && (kernproc = pfinder_kernproc(pfinder)) != 0) {
-				printf("kernproc: " KADDR_FMT "\n", kernproc);
-				if((allproc = pfinder_allproc(pfinder)) != 0) {
-					printf("allproc: " KADDR_FMT "\n", allproc);
-					ret = KERN_SUCCESS;
-				}
-			}
-			pfinder_term(&pfinder);
-		}
-		free(boot_path);
-	}
-	return ret;
+    proc_task_off = 0x18;
+    proc_p_pid_off = 0x10;
+    task_itk_space_off = 0x290;
+    io_dt_nvram_of_dict_off = 0xC0;
+    if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_10_0_b5) {
+        task_itk_space_off = 0x300;
+        if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_11_0_b1) {
+            task_itk_space_off = 0x308;
+            if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_12_0_b1) {
+                proc_task_off = 0x10;
+                proc_p_pid_off = 0x60;
+                task_itk_space_off = 0x300;
+                if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_13_0_b1) {
+                    task_itk_space_off = 0x320;
+                    if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_13_0_b2) {
+                        proc_p_pid_off = 0x68;
+                        if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_14_0_b1) {
+                            task_itk_space_off = 0x330;
+                            io_dt_nvram_of_dict_off = 0xB8;
+                            if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_14_3_b1) {
+                                io_dt_nvram_of_dict_off = 0xC0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if((boot_path = get_boot_path()) != NULL) {
+        printf("boot_path: %s\n", boot_path);
+        if(pfinder_init_file(&pfinder, boot_path) == KERN_SUCCESS) {
+            
+            pfinder.kslide = kslide;
+            printf("if(pfinder_init_file(&pfinder, boot_path) == KERN_SUCCESS) -::%llu\n",kslide);
+            kaddr_t pfinder_init_kbase_addr = pfinder_init_kbase(&pfinder);
+            kaddr_t pfinder_addr = pfinder_kernproc(pfinder);
+            printf("pfinder_init_kbase_addr--::%llu,pfinder_addr--::%llu",pfinder_init_kbase_addr,pfinder_addr);
+            if(pfinder_init_kbase_addr == KERN_SUCCESS && (kernproc = pfinder_addr) != 0) {
+                printf("kernproc: " KADDR_FMT "\n", kernproc);
+                if((allproc = pfinder_allproc(pfinder)) != 0) {
+                    printf("allproc: " KADDR_FMT "\n", allproc);
+                    ret = KERN_SUCCESS;
+                }
+            }
+            pfinder_term(&pfinder);
+        }
+        free(boot_path);
+    }
+    return ret;
 }
 
 kern_return_t
@@ -747,7 +752,7 @@ find_task(pid_t pid, kaddr_t *task) {
 	return KERN_FAILURE;
 }
 
-static kern_return_t
+kern_return_t
 lookup_ipc_port(mach_port_name_t port_name, kaddr_t *ipc_port) {
 	ipc_entry_num_t port_idx, is_table_sz;
 	kaddr_t itk_space, is_table;
@@ -765,7 +770,7 @@ lookup_ipc_port(mach_port_name_t port_name, kaddr_t *ipc_port) {
 	return KERN_FAILURE;
 }
 
-static kern_return_t
+kern_return_t
 lookup_io_object(io_object_t object, kaddr_t *ip_kobject) {
 	kaddr_t ipc_port;
 
@@ -776,7 +781,7 @@ lookup_io_object(io_object_t object, kaddr_t *ip_kobject) {
 	return KERN_FAILURE;
 }
 
-static kern_return_t
+kern_return_t
 nonce_generate(io_service_t nonce_serv) {
 	uint8_t nonce_d[CC_SHA384_DIGEST_LENGTH];
 	kern_return_t ret = KERN_FAILURE;
@@ -794,7 +799,7 @@ nonce_generate(io_service_t nonce_serv) {
 	return ret;
 }
 
-static kern_return_t
+kern_return_t
 get_of_dict(io_service_t nvram_serv, kaddr_t *of_dict) {
 	kaddr_t nvram_object;
 
@@ -805,7 +810,7 @@ get_of_dict(io_service_t nvram_serv, kaddr_t *of_dict) {
 	return KERN_FAILURE;
 }
 
-static kaddr_t
+kaddr_t
 lookup_key_in_os_dict(kaddr_t os_dict, const char *key) {
 	kaddr_t os_dict_entry_ptr, string_ptr, val = 0;
 	uint32_t os_dict_cnt, cur_key_len;
@@ -848,7 +853,7 @@ lookup_key_in_os_dict(kaddr_t os_dict, const char *key) {
 	return val;
 }
 
-static kern_return_t
+kern_return_t
 set_nvram_prop(io_service_t nvram_serv, const char *key, const char *val) {
 	CFStringRef cf_key = CFStringCreateWithCStringNoCopy(kCFAllocatorDefault, key, kCFStringEncodingUTF8, kCFAllocatorNull), cf_val;
 	kern_return_t ret = KERN_FAILURE;
@@ -863,7 +868,7 @@ set_nvram_prop(io_service_t nvram_serv, const char *key, const char *val) {
 	return ret;
 }
 
-static kern_return_t
+kern_return_t
 sync_nonce(io_service_t nvram_serv) {
 	if(set_nvram_prop(nvram_serv, "temp_key", "temp_val") == KERN_SUCCESS && set_nvram_prop(nvram_serv, kIONVRAMDeletePropertyKey, "temp_key") == KERN_SUCCESS) {
 		return set_nvram_prop(nvram_serv, kIONVRAMForceSyncNowPropertyKey, kBootNoncePropertyKey);

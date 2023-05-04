@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9B07D46529FA1BDD00616F95 /* preparerootfs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = preparerootfs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B07D46529FA1BDD00616F95 /* preparerootfs2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = preparerootfs2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B07D48229FA1E0300616F95 /* jelbrekLib.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = jelbrekLib.dylib; path = ../lib/jelbrekLib.dylib; sourceTree = "<group>"; };
 		9B07D49229FA1F5700616F95 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		9B3872FF2A037C6C00EFE77A /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 		9B07D46629FA1BDD00616F95 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9B07D46529FA1BDD00616F95 /* preparerootfs.app */,
+				9B07D46529FA1BDD00616F95 /* preparerootfs2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,7 +103,7 @@
 			);
 			name = preparerootfs;
 			productName = preparerootfs;
-			productReference = 9B07D46529FA1BDD00616F95 /* preparerootfs.app */;
+			productReference = 9B07D46529FA1BDD00616F95 /* preparerootfs2.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -165,7 +165,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\n# 如果工程名称和Framework的Target名称不一样的话，要自定义FMKNAME\n# 例如: FMK_NAME = \"MyFramework\"\nAPPNAME=preparerootfs\n\nCONFIGURATION_BUILD_exec=${CONFIGURATION_BUILD_DIR}/${APPNAME}.app/${APPNAME}\n\necho \"CONFIGURATION_BUILD_exec--::${CONFIGURATION_BUILD_exec}\"\n\necho lh1992524 | sudo -S chown root:wheel ${CONFIGURATION_BUILD_exec}\necho lh1992524 | sudo -S  chmod +s ${CONFIGURATION_BUILD_exec}\n\necho lh1992524 | sudo -S  chmod 777 ${CONFIGURATION_BUILD_exec}\n\n\n";
+			shellScript = "# Sets the target folders and the final framework product.\n# 如果工程名称和Framework的Target名称不一样的话，要自定义FMKNAME\n# 例如: FMK_NAME = \"MyFramework\"\nAPPNAME=preparerootfs2\n\nCONFIGURATION_BUILD_exec=${CONFIGURATION_BUILD_DIR}/${APPNAME}.app/${APPNAME}\n\necho \"CONFIGURATION_BUILD_exec--::${CONFIGURATION_BUILD_exec}\"\n\necho lh1992524 | sudo -S chown root:wheel ${CONFIGURATION_BUILD_exec}\necho lh1992524 | sudo -S  chmod +s ${CONFIGURATION_BUILD_exec}\n\necho lh1992524 | sudo -S  chmod 777 ${CONFIGURATION_BUILD_exec}\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -339,7 +339,7 @@
 				OTHER_LDFLAGS = "-Wl";
 				OTHER_LIBTOOLFLAGS = "-Wl";
 				PRODUCT_BUNDLE_IDENTIFIER = com.universe.preparerootfs;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)2";
 				REZ_SEARCH_PATHS = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -378,7 +378,7 @@
 				OTHER_LDFLAGS = "-Wl";
 				OTHER_LIBTOOLFLAGS = "-Wl";
 				PRODUCT_BUNDLE_IDENTIFIER = com.universe.preparerootfs;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)2";
 				REZ_SEARCH_PATHS = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
