@@ -1,3 +1,6 @@
+#ifndef utils_h
+#define utils_h
+
 #include <dirent.h>
 #include <sys/stat.h>
 
@@ -120,3 +123,5 @@ int copy_dir(const char *name, const char *target) {
     }
     return 0;
 }
+
+#endif

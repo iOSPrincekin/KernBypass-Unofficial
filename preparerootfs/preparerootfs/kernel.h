@@ -1,15 +1,17 @@
+#ifndef kernel_h
+#define kernel_h
+
 #include <CoreFoundation/CoreFoundation.h>
 #include <mach-o/loader.h>
 #include <mach/mach.h>
 #include "libdimentio.h"
 
-uint32_t off_p_pid;
-uint32_t off_p_pfd;
-uint32_t off_fd_rdir;
-uint32_t off_fd_cdir;
-uint32_t off_vnode_iocount;
-uint32_t off_vnode_usecount;
-uint32_t off_vnode_usecount;
+static uint32_t off_p_pid = 0;
+static uint32_t off_p_pfd = 0;
+static uint32_t off_fd_rdir = 0;
+static uint32_t off_fd_cdir = 0;
+static uint32_t off_vnode_iocount = 0;
+static uint32_t off_vnode_usecount = 0;
 
 int offset_init();
 
@@ -31,3 +33,5 @@ void show_path(uint64_t);
 int init_kernel();
 
 uint64_t proc_of_pid(pid_t);
+
+#endif

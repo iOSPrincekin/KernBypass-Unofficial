@@ -151,9 +151,7 @@ mach_vm_region(vm_map_t, mach_vm_address_t *, mach_vm_size_t *, vm_region_flavor
 extern const mach_port_t kIOMasterPortDefault;
 
 static kread_func_t kread_buf;
-task_t tfp0 = TASK_NULL;
 static kwrite_func_t kwrite_buf;
-kaddr_t kbase, kslide, this_proc, our_task, allproc;
 static kaddr_t kernproc;
 static size_t proc_task_off, proc_p_pid_off, task_itk_space_off, io_dt_nvram_of_dict_off;
 

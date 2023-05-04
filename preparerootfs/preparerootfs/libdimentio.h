@@ -1,3 +1,6 @@
+#ifndef libdimentio_h
+#define libdimentio_h
+
 /* Copyright 2020 0x7ff
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +30,8 @@ static kread_func_t kread_buf;
 static kwrite_func_t kwrite_buf;
 static size_t proc_p_pid_off;
 static size_t proc_task_off;
-task_t tfp0;
-kaddr_t kbase, kslide, this_proc, our_task, allproc;
+static task_t tfp0 = TASK_NULL;
+static kaddr_t kbase, kslide, this_proc, our_task, allproc;
 
 void
 dimentio_term(void);
@@ -59,4 +62,7 @@ kread_buf_tfp0(kaddr_t, void *, mach_vm_size_t);
 
 kern_return_t
 kwrite_buf_tfp0(kaddr_t, const void *, mach_msg_type_number_t);
+#endif
+
+
 #endif
