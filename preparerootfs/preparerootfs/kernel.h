@@ -6,12 +6,14 @@
 #include <mach/mach.h>
 #include "libdimentio.h"
 
-static uint32_t off_p_pid = 0;
-static uint32_t off_p_pfd = 0;
-static uint32_t off_fd_rdir = 0;
-static uint32_t off_fd_cdir = 0;
-static uint32_t off_vnode_iocount = 0;
-static uint32_t off_vnode_usecount = 0;
+extern uint32_t off_p_pid;
+extern uint32_t off_p_pfd;
+extern uint32_t off_fd_rdir;
+extern uint32_t off_fd_cdir;
+extern uint32_t off_vnode_iocount;
+extern uint32_t off_vnode_usecount;
+extern uint32_t off_vnode_usecount;
+
 
 int offset_init();
 

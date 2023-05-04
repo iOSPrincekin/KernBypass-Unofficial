@@ -5,6 +5,14 @@
 //original code : https://github.com/0x7ff/maphys/blob/master/maphys.c
 //original code : https://github.com/XsF1re/vnodebypass/blob/master/main.m
 
+uint32_t off_p_pid = 0;
+uint32_t off_p_pfd = 0;
+uint32_t off_fd_rdir = 0;
+uint32_t off_fd_cdir = 0;
+uint32_t off_vnode_iocount = 0;
+uint32_t off_vnode_usecount = 0;
+
+
 #define kCFCoreFoundationVersionNumber_iOS_12_0    (1535.12)
 #define kCFCoreFoundationVersionNumber_iOS_13_0_b2 (1656)
 #define kCFCoreFoundationVersionNumber_iOS_13_0_b1 (1652.20)
@@ -160,6 +168,8 @@ int init_kernel() {
       printf("failed init_tfp0!\n");
       return 1;
   }
+
+  printf("kbase---::0x%x,kbase == 0 :: %d\n",kbase,kbase == 0);
 
   if (kbase == 0) {
       printf("failed get kbase\n");

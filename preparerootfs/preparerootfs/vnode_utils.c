@@ -4,6 +4,9 @@
 
 #include "vnode_utils.h"
 
+unsigned off_v_mount = 0xd8;             // vnode::v_mount
+unsigned off_mnt_flag = 0x70;            // mount::mnt_flag
+
 void print_vnode_usecount(uint64_t vnode_ptr) {
 
     if (vnode_ptr == 0) return;

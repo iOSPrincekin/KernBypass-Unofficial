@@ -30,8 +30,9 @@ static kread_func_t kread_buf;
 static kwrite_func_t kwrite_buf;
 static size_t proc_p_pid_off;
 static size_t proc_task_off;
-static task_t tfp0 = TASK_NULL;
-static kaddr_t kbase, kslide, this_proc, our_task, allproc;
+extern task_t tfp0;
+extern kaddr_t kbase, kslide, this_proc, our_task, allproc;
+
 
 void
 dimentio_term(void);

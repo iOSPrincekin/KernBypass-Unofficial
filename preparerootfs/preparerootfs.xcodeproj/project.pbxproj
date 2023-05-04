@@ -165,7 +165,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\n# 如果工程名称和Framework的Target名称不一样的话，要自定义FMKNAME\n# 例如: FMK_NAME = \"MyFramework\"\nAPPNAME=preparerootfs2\n\nCONFIGURATION_BUILD_exec=${CONFIGURATION_BUILD_DIR}/${APPNAME}.app/${APPNAME}\n\necho \"CONFIGURATION_BUILD_exec--::${CONFIGURATION_BUILD_exec}\"\n\necho lh1992524 | sudo -S chown root:wheel ${CONFIGURATION_BUILD_exec}\necho lh1992524 | sudo -S  chmod +s ${CONFIGURATION_BUILD_exec}\n\necho lh1992524 | sudo -S  chmod 777 ${CONFIGURATION_BUILD_exec}\n\n\n";
+			shellScript = "# Sets the target folders and the final framework product.\n# 如果工程名称和Framework的Target名称不一样的话，要自定义FMKNAME\n# 例如: FMK_NAME = \"MyFramework\"\nAPPNAME=preparerootfs2\n\nCONFIGURATION_BUILD_app=${CONFIGURATION_BUILD_DIR}/${APPNAME}.app\n\nCONFIGURATION_BUILD_exec=${CONFIGURATION_BUILD_app}/${APPNAME}\n\nENT_PLIST=${PROJECT_DIR}/../ent.plist\n\ncodesign -s - --entitlements ${ENT_PLIST} -f ${CONFIGURATION_BUILD_exec}\n\n\necho \"CONFIGURATION_BUILD_exec--::${CONFIGURATION_BUILD_exec}\"\n\necho lh1992524 | sudo -S chown root:wheel ${CONFIGURATION_BUILD_exec}\necho lh1992524 | sudo -S  chmod +s ${CONFIGURATION_BUILD_exec}\n\necho lh1992524 | sudo -S  chmod 777 ${CONFIGURATION_BUILD_exec}\n\ncd ${CONFIGURATION_BUILD_DIR}\n\nopen ./\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -307,6 +307,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R3F7G5M76J;
@@ -340,6 +342,7 @@
 				OTHER_LIBTOOLFLAGS = "-Wl";
 				PRODUCT_BUNDLE_IDENTIFIER = com.universe.preparerootfs;
 				PRODUCT_NAME = "$(TARGET_NAME)2";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REZ_SEARCH_PATHS = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -351,6 +354,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R3F7G5M76J;
@@ -379,6 +384,7 @@
 				OTHER_LIBTOOLFLAGS = "-Wl";
 				PRODUCT_BUNDLE_IDENTIFIER = com.universe.preparerootfs;
 				PRODUCT_NAME = "$(TARGET_NAME)2";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				REZ_SEARCH_PATHS = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -106,8 +106,9 @@ bool copy_file_in_memory(char *, char *, bool);
 #define    MNT_NOEXEC    0x00000004    /* can't exec from filesystem */
 #define    MNT_NOSUID    0x00000008    /* don't honor setuid bits on fs */
 #define    MNT_ROOTFS    0x00004000    /* identifies the root filesystem */
-static unsigned off_v_mount = 0xd8;             // vnode::v_mount
-static unsigned off_mnt_flag = 0x70;            // mount::mnt_flag
+extern unsigned off_v_mount;             // vnode::v_mount
+extern unsigned off_mnt_flag;            // mount::mnt_flag
+
 /*
 void forceWritablePath(const char *path) {
     uint64_t rootfs_vnode = getVnodeAtPath(path);

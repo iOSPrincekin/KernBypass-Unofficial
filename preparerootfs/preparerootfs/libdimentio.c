@@ -151,7 +151,9 @@ mach_vm_region(vm_map_t, mach_vm_address_t *, mach_vm_size_t *, vm_region_flavor
 extern const mach_port_t kIOMasterPortDefault;
 
 static kread_func_t kread_buf;
+task_t tfp0 = TASK_NULL;
 static kwrite_func_t kwrite_buf;
+kaddr_t kbase, kslide, this_proc, our_task, allproc;
 static kaddr_t kernproc;
 static size_t proc_task_off, proc_p_pid_off, task_itk_space_off, io_dt_nvram_of_dict_off;
 
@@ -281,6 +283,7 @@ kdecompress(const void *src, size_t src_len, size_t *dst_len) {
 kern_return_t
 init_tfp0(void) {
 	kern_return_t ret = task_for_pid(mach_task_self(), 0, &tfp0);
+    printf("init_tfp0--::%d,tfp0--::%d\n",ret,tfp0);
 	mach_port_t host;
 
 	if(ret != KERN_SUCCESS) {
@@ -634,6 +637,7 @@ pfinder_init_kbase(pfinder_t *pfinder) {
 		pfinder->sec_cstring.s64.addr += pfinder->kslide;
 		printf("kbase: " KADDR_FMT ", kslide: " KADDR_FMT "\n", pfinder->base + pfinder->kslide, pfinder->kslide);
 		kbase = pfinder->base + pfinder->kslide;
+        printf("kbase---::0x%x\n",kbase);
 		kslide = pfinder->kslide;
 		return KERN_SUCCESS;
 	}
@@ -716,7 +720,7 @@ pfinder_init_offsets(void) {
             printf("if(pfinder_init_file(&pfinder, boot_path) == KERN_SUCCESS) -::%llu\n",kslide);
             kaddr_t pfinder_init_kbase_addr = pfinder_init_kbase(&pfinder);
             kaddr_t pfinder_addr = pfinder_kernproc(pfinder);
-            printf("pfinder_init_kbase_addr--::%llu,pfinder_addr--::%llu",pfinder_init_kbase_addr,pfinder_addr);
+            printf("pfinder_init_kbase_addr--::%llu,pfinder_addr--::0x%x\n",pfinder_init_kbase_addr,pfinder_addr);
 			if(pfinder_init_kbase_addr == KERN_SUCCESS && (kernproc = pfinder_addr) != 0) {
 				printf("kernproc: " KADDR_FMT "\n", kernproc);
 				if((allproc = pfinder_allproc(pfinder)) != 0) {
